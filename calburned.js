@@ -66,8 +66,8 @@ const updateUserWeight = (weight) => {
 };
 const constructActivity = ({ activity }) => {
   const activityNs = removeSpace(activity);
-  const basicString = `<li> <div class="input-items activity-input"> <input type="text" class="input-info" autocomplete="off" maxlength="3" id="${activityNs}-input"><label id="${activityNs}Label">${activity}</label> <div class="input-metric" id="${activityNs}InputMetric"><p>mi</p></div> <div class="calories-burned">Calories Burned<span class="calorie-counter" id="calorie${activityNs}"> 0 </span></div> </div> </li>`;
-  const runningString = `<li> <div class="input-items activity-input"> <input type="text" class="input-info" autocomplete="off" maxlength="3"  id="${activityNs}-input"><input type="text" class="speed-input" id="speedValue" value="6"><div class="mph">mph</div> <label id="${activityNs}Label">${activity}</label><div class="input-metric" id="${activityNs}InputMetric"><p>mi</p></div> <div class="calories-burned">Calories Burned<span class="calorie-counter" id="calorie${activityNs}"> 0 </span></div> </div> </li>`;
+  const basicString = `<li> <div class="input-items activity-input"> <input type="text" onkeypress="return numOnly(event)" class="input-info" autocomplete="off" maxlength="3" id="${activityNs}-input"><label id="${activityNs}Label">${activity}</label> <div class="input-metric" id="${activityNs}InputMetric"><p>mi</p></div> <div class="calories-burned">Calories Burned<span class="calorie-counter" id="calorie${activityNs}"> 0 </span></div> </div> </li>`;
+  const runningString = `<li> <div class="input-items activity-input"> <input type="text" onkeypress="return numOnly(event)" class="input-info" autocomplete="off" maxlength="3"  id="${activityNs}-input"><input type="text" maxlength= "2" onkeypress="return numOnly(event)" class="speed-input" id="speedValue" value="6"><div class="mph">mph</div> <label id="${activityNs}Label">${activity}</label><div class="input-metric" id="${activityNs}InputMetric"><p>mi</p></div> <div class="calories-burned">Calories Burned<span class="calorie-counter" id="calorie${activityNs}"> 0 </span></div> </div> </li>`;
   const output = (activity === 'running') ? runningString : basicString;
   return output;
 };
@@ -255,23 +255,6 @@ const chosenOptionsAnimation = () => {
     option = 'calc';
   }
 };
-const addEvent = (id, type, f) => {
-  document.getElementById(id).addEventListener(type, () => {
-    switch (f) {
-      default:
-        alert('Unknown Error');
-        break;
-      case 'cancel':
-        cancelEdit();
-        break;
-      case 'edit':
-        editWeight();
-        break;
-      case 'option':
-        chosenOptionsAnimation();
-    }
-  });
-};
 
 // CALCULATOR OPTION LOGIC
 document.getElementById('calculator-button').addEventListener('click', () => chosenOptionsAnimation()); // Add Event For Animation
@@ -305,32 +288,32 @@ weightInput.addEventListener('keyup', (event) => {
       weightInput.velocity({ left: '0px' }, 100, 'ease-in');
       return;
     }
-    let pounds = parseInt(event.target.value, 10);
+    const pounds = parseInt(event.target.value, 10);
     updateUserWeight(pounds);
     updateCalories();
     weightAnimation();
     changeInnerHtml('weightLabel', 'Your Weight');
     setTimeout(() => { document.getElementById('buttonContainer').style.display = 'block'; }, 300);
-    document.getElementById('weight-input').readOnly = true;
+    weightInput.readOnly = true;
   }
 });
 
 const convertableMetrcis = ['weight', 'mile'];
 
 // ROUTINE GENERATOR LOGIC
-const setPriority = '';
 document.getElementById('routine-button').addEventListener('click', () => {
   if (option !== 'routine') {
     if (document.getElementById('buttonContainer').className !== 'velocity-animating') {
       Velocity(document.getElementById('buttonContainer'), { top: '10px' }, 500, 'ease-in');
     }
+    displayTotalBurn.style.display = 'none';
     changeInnerHtml('container', '<input type="text" id="target-cal" placeholder="How many calories would you like to burn in a day"></input>');
     targetCal();
     option = 'routine';
   }
 });
 activities.forEach((x) => { const y = x; y.percentage = 100 / activities.length; });
-let high; let med; let low;
+const prioritiesArr = ['high', 'med', 'low'];
 const changePercentage = (activity, priority) => {
   let percentage;
   switch (priority) {
@@ -360,14 +343,100 @@ const changePercentage = (activity, priority) => {
       jumpingjacks.percentage = percentage;
   }
 };
+changePercentage('walking', 'high');
+changePercentage('running', 'med');
+changePercentage('jumping jacks', 'low');
+
+// ADDING EVENTS TO PRIORITY BUTTONS
+let activityhigh = 'walking'; let activitymed = 'running'; let activitylow = 'jumping jacks';
+
+const changeInnerPriority = (a, priority) => {
+  prioritiesArr.forEach((p) => {
+    if (p !== priority) {
+      document.getElementById(`${removeSpace(a)}_${p}`).style.backgroundColor = 'yellow';
+    }
+  });
+};
+const changingPriority = (activity, priority) => {
+  let from;
+  const newPriority = (h, m, l) => { activityhigh = h; activitymed = m; activitylow = l; };
+  ['high', 'med', 'low'].forEach((x) => { if (document.getElementById(`${removeSpace(activity)}_${x}`).style.backgroundColor === 'black') { from = x; } });
+  document.getElementById(`${removeSpace(activity)}_${priority}`).style.backgroundColor = 'black';
+  changeInnerPriority(activity, priority);
+  let newhigh; let newmed; let newlow;
+  console.log(activity, activityhigh);
+  if (priority === 'high' && activity !== activityhigh) {
+    if (from === 'med') {
+      newhigh = activity;
+      newmed = activityhigh;
+      newlow = activitylow;
+      newPriority(newhigh, newmed, newlow);
+    }
+    if (from === 'low') {
+      newhigh = activity;
+      newmed = activitymed;
+      newlow = activityhigh;
+      newPriority(newhigh, newmed, newlow);
+    }
+  }
+  if (priority === 'med' && activity !== activitymed) {
+    if (from === 'high') {
+      newmed = activity;
+      newhigh = activitymed;
+      newlow = activitylow;
+      newPriority(newhigh, newmed, newlow);
+    }
+    if (from === 'low') {
+      newmed = activity;
+      newlow = activitymed;
+      newhigh = activityhigh;
+      newPriority(newhigh, newmed, newlow);
+    }
+  }
+  if (priority === 'low' && activity !== activitylow) {
+    if (from === 'med') {
+      newlow = activity;
+      newmed = activitylow;
+      newhigh = activityhigh;
+      newPriority(newhigh, newmed, newlow);
+    }
+    if (from === 'high') {
+      newlow = activity;
+      newmed = activitymed;
+      newhigh = activitylow;
+      newPriority(newhigh, newmed, newlow);
+    }
+  }
+  console.log(activityhigh, activitymed, activitylow);
+  activities.forEach((x) => {
+    if (x.activity === activityhigh) {
+      document.getElementById(`${removeSpace(x.activity)}_high`).style.backgroundColor = 'black';
+      changePercentage(x.activity, 'high');
+      changeInnerPriority(x.activity, 'high');
+    } else if (x.activity === activitymed) {
+      document.getElementById(`${removeSpace(x.activity)}_med`).style.backgroundColor = 'black';
+      changePercentage(x.activity, 'med');
+      changeInnerPriority(x.activity, 'med');
+    } else if (x.activity === activitylow) {
+      document.getElementById(`${removeSpace(x.activity)}_low`).style.backgroundColor = 'black';
+      changePercentage(x.activity, 'low');
+      changeInnerPriority(x.activity, 'low');
+    }
+  });
+};
+
+document.getElementById(`${removeSpace(activityhigh)}_high`).style.backgroundColor = 'black';
+document.getElementById(`${removeSpace(activitymed)}_med`).style.backgroundColor = 'black';
+document.getElementById(`${removeSpace(activitylow)}_low`).style.backgroundColor = 'black';
 activities.forEach(({ activity }) => {
-  ['high', 'med', 'low'].forEach((priority) => {
-    const button = document.getElementById(`${removeSpace(activity)}${priority}`);
-    button.addEventListener(('click'), () => {
-      button.style.backgroundColor = 'black';
+  prioritiesArr.forEach((priority) => {
+    const button = document.getElementById(`${removeSpace(activity)}_${priority}`);
+    button.addEventListener(('click'), (event) => {
+      changingPriority(activity, priority, event.target.id);
     });
   });
 });
+
 const createRoutine = ({
   activity, metric, cal, percentage,
 }) => {
