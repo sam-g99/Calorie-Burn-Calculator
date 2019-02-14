@@ -176,75 +176,23 @@ const addEventForSpeed = () => {
     }
   });
 };
-const addEventForToggle = (x) => {
-  const toggleCircle = document.getElementById(`${x}ToggleCircle`);
-  const rightToggle = document.getElementById(`${x}RightToggle`);
-  const leftToggle = document.getElementById(`${x}LeftToggle`);
-  if (x === 'mile') {
-    const toggle = document.getElementById(`${x}ToggleContainer`);
-    const duration = 100;
-    toggle.addEventListener(('click'), () => {
-      if (activityMetric === 'mi') {
-        activityMetric = 'km';
-        ['walking', 'running'].forEach((act) => { updateValues(act); });
-        rightToggle.style.fontWeight = 'bolder';
-        leftToggle.style.fontWeight = '100';
-        Velocity(toggleCircle, { left: '20px' }, duration, 'swing');
-        ['walkingInputMetric', 'runningInputMetric'].forEach(y => changeInnerHtml(y, '<p>km</p>')); // Change Metric Dom (km)
-      } else {
-        activityMetric = 'mi';
-        ['walking', 'running'].forEach((act) => { updateValues(act); });
-        console.log(activityMetric);
-        rightToggle.style.fontWeight = '100';
-        leftToggle.style.fontWeight = 'bolder';
-        Velocity(toggleCircle, { left: '5px' }, duration, 'swing');
-        ['walkingInputMetric', 'runningInputMetric'].forEach(z => changeInnerHtml(z, '<p>mi</p>')); // Change Metric Dom (mi)
-      }
-    });
-    return;
-  }
-  const toggle = document.getElementById(`${x}ToggleContainer`);
 
-  toggle.addEventListener('click', () => {
-    const duration = 100;
-    if (weightMetric === 'lb' && toggleCircle.className !== 'velocity-animating') {
-      Velocity(toggleCircle, { left: '20px' }, duration, 'swing');
-      if (user.weight === 0) {
-        changeMetric(x);
-      }
-      rightToggle.style.fontWeight = 'bolder';
-      leftToggle.style.fontWeight = '100';
-      weightMetric = 'kg';
-    } else if (weightMetric === 'kg' && toggleCircle.className !== 'velocity-animating') {
-      Velocity(toggleCircle, { left: '5px' }, duration, 'swing');
-      if (user.weight === 0) {
-        changeMetric(x);
-      }
-      rightToggle.style.fontWeight = '100';
-      leftToggle.style.fontWeight = 'bolder';
-      weightMetric = 'lb';
-    }
-  });
-};
 const addEventLabel = (x) => {
   const input = document.getElementById(`${x}-input`);
   input.addEventListener('focus', () => {
     const label = document.getElementById(`${x}Label`);
-    Velocity(label, { top: '-25px' }, 100, 'ease-in');
+
   });
   input.addEventListener('focusout', () => {
     if (input.value === '') {
       const label = document.getElementById(`${x}Label`);
-      Velocity(label, { top: '25px' }, 100, 'ease-in');
+
     }
   });
 };
 const chosenOptionsAnimation = () => {
   if (option !== 'calc') {
-    if (document.getElementById('buttonContainer').className !== 'velocity-animating') {
-      Velocity(document.getElementById('buttonContainer'), { top: '10px' }, 500, 'ease-in');
       displayTotalBurn.style.display = 'block';
-      Velocity(displayTotalBurn, { opacity: '1' }, 600, 'ease-in');
     }
     changeInnerHtml('container', '');
     activities.forEach((x) => { document.getElementById('container').innerHTML += constructActivity(x); });
@@ -254,46 +202,32 @@ const chosenOptionsAnimation = () => {
     addEventForToggle('mile');
     option = 'calc';
   }
-};
+
 
 // CALCULATOR OPTION LOGIC
 document.getElementById('calculator-button').addEventListener('click', () => chosenOptionsAnimation()); // Add Event For Animation
-const weightInput = document.getElementById('weight');
+const weightInput = document.getElementById('weight-input');
 
 // WeightAnimation
 const info = document.getElementById('info');
 const note = document.getElementById('note');
 const weightAnimation = () => {
-  weightInputMetric.innerHTML = '<p class="edit-button" id="editButton">edit</p>';
-  document.getElementById('editButton').addEventListener('click', () => editWeight()); // Add Event For Edit Button
-  Velocity(weightInput, { top: '90%' }, 500, 'easeOutBounce');
-  Velocity(info, { left: '200%' }, 200, 'ease-in');
-  Velocity(note, { opacity: 0 }, 200, 'ease-in');
-  setTimeout(() => { note.style.display = 'none'; }, 200);
+  document.getElementById('weight').style.display = "none";
 };
 
 // WEIGHT INPUT LOGIC
-addEventForToggle('weight');
 weightInput.addEventListener('keyup', (event) => {
-  event.stopPropagation();
-  event.preventDefault();
+
   if (event.keyCode === 13) {
     if (event.target.value < 10) {
-      if (weightInput.className !== 'input-items velocity-animating') {
-        for (let i = 0; i < 2; i += 1) {
-          weightInput.velocity({ left: '10px' }, 50, 'easeInSine');
-          weightInput.velocity({ left: '-10px' }, 50, 'easeInSine');
-        }
-      }
-      weightInput.velocity({ left: '0px' }, 100, 'ease-in');
+      console.log('you shall not pass');
       return;
     }
     const pounds = parseInt(event.target.value, 10);
     updateUserWeight(pounds);
     updateCalories();
     weightAnimation();
-    changeInnerHtml('weightLabel', 'Your Weight');
-    setTimeout(() => { document.getElementById('buttonContainer').style.display = 'block'; }, 300);
+    document.getElementById('buttonContainer').style.visibility = 'visible'; 
     weightInput.readOnly = true;
   }
 });
@@ -303,12 +237,9 @@ const convertableMetrcis = ['weight', 'mile'];
 // ROUTINE GENERATOR LOGIC
 document.getElementById('routine-button').addEventListener('click', () => {
   if (option !== 'routine') {
-    if (document.getElementById('buttonContainer').className !== 'velocity-animating') {
-      Velocity(document.getElementById('buttonContainer'), { top: '10px' }, 500, 'ease-in');
-    }
-    displayTotalBurn.style.display = 'none';
-    changeInnerHtml('container', '<input type="text" id="target-cal" placeholder="How many calories would you like to burn in a day"></input>');
-    targetCal();
+    document.getElementById('mainPriorityContainer').style.visibility= 'visible';
+    document.getElementById('info').style.display = 'none';
+    document.getElementById('background').style.height = "30vh";
     option = 'routine';
   }
 });
