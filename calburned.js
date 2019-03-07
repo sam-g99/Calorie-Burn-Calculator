@@ -1,10 +1,21 @@
-/* eslint-disable no-alert */
+/* eslint-disable max-len */
 /* eslint-disable no-console */
+/* eslint-disable no-alert */
+
 /* eslint-env browser, true */
+
+/* Created by: https://github.com/sam-g99
+
+This program estimates how many calories a person would burn based on their weight
+and what activity they do. The activities supported are walking, running, and jumping jacks.
+Also the program can generate routines based on simple user preferences such as a how many
+calories a user would like to burn (Target Burn) and which activity they would like to do the most(high, medium, low). */
+
+// Objects for user information and activity data
 const user = {
   weight: 0,
   metric: 'lb',
-  targetBurn: 0,
+  targetBurn: 1000,
 };
 
 const activities = [
@@ -31,30 +42,14 @@ const activities = [
     burn: 0,
   },
 ];
-// MAIN VARIABLES
 const [walking, running, jumpingjacks] = activities;
-const weightInputBox = document.getElementById('weight-input');
-const weightInputMetric = document.getElementById('weightInputMetric');
-const displayTotalBurn = document.getElementById('totalBurn');
-const totalBurnDom = document.getElementById('totalBurnRes');
-let prevWeight = 0;
+
+// Variables dealing with weight
 let weightMetric = 'lb';
-let option = '';
-let currentSpeed = 6;
-let activityMetric = 'mi';
 
-// MAIN FUNCTIONS
-
-const removeNum = str => str.replace(/[0-9]/g, '');
-const removeChar = str => str.replace(/\D/g, '');
-const removeSpace = str => str.replace(/\s/g, '');
+// All functions dealing with weight input
 const kiloToPounds = x => x / 0.453592;
-const convertKmToMiles = x => x / 1.609344;
-const changeInnerHtml = (id, change) => { document.getElementById(id).innerHTML = change; };
-const calculateBurn = ({ cal, amount }, { weight }) => parseInt(cal * weight * amount, 10);
-const updateTotalBurn = () => {
-  totalBurnDom.innerHTML = walking.burn + running.burn + jumpingjacks.burn;
-};
+
 const updateUserWeight = (weight) => {
   let pounds;
   if (weightMetric === 'lb') {
@@ -64,185 +59,323 @@ const updateUserWeight = (weight) => {
   }
   user.weight = pounds;
 };
+// obvious stuff
+
+// function for animation after user is done putting in their weight
+const weightEnteredAnimation = () => {
+  document.getElementById('weight').style.display = 'none';
+};
+const weightDisplay = document.getElementById('displayWeight');
+const displayWeight = (w, m) => {
+  weightDisplay.innerHTML = `<div class="user-weight-title">Current Weight</div> <div class="weight-number" id="userWeightDisplayed"> ${w}${m}</div>`;
+};
+// if (option !== 'routine') {
+//   content.innerHTML = routineHtml;
+//   document.getElementById('generateRoutine').addEventListener('click', () => {
+//     executeRoutine();
+//   });
+//   option = 'routine';
+//   splitPriority();
+//   document.getElementById('splitPriority').addEventListener('click', () => splitPriority());
+//   document.getElementById(`${removeSpace(activityhigh)}_high`).style.backgroundColor = priorityColor;
+//   document.getElementById(`${removeSpace(activitymed)}_med`).style.backgroundColor = priorityColor;
+//   document.getElementById(`${removeSpace(activitylow)}_low`).style.backgroundColor = priorityColor;
+//   activities.forEach(({ activity }) => {
+//     prioritiesArr.forEach((priority) => {
+//       const button = document.getElementById(`${removeSpace(activity)}_${priority}`);
+//       button.addEventListener(('click'), (event) => {
+//         changingPriority(activity, priority, event.target.id);
+//       });
+//     });
+//   });
+// }
+
+// Setting up event listener for input that gets the users weight
+const weightInput = document.getElementById('weight-input');
+weightInput.addEventListener('keyup', (event) => {
+  if (event.keyCode === 13) {
+    if (event.target.value < 10) {
+      return;
+    }
+    const pounds = parseInt(event.target.value, 10); // Getting the weight the user inputed
+    updateUserWeight(pounds);
+    weightEnteredAnimation();
+    displayWeight(pounds, weightMetric);
+    weightInput.readOnly = true;
+  }
+});
+
+
+const content = document.getElementById('content');
+const background = document.getElementById('background');
+
+const weightInputMetric = document.getElementById('weightInputMetric');
+const displayTotalBurn = document.getElementById('totalBurn');
+
+
+const totalBurnHTML = `  <div class="total-calories-burned">
+Total Calories Burned
+<div class="calorie-counter" id="totalBurnRes">0</div>
+</div>`;
+
+let prevWeight = 0;
+let option = '';
+let currentSpeed = 6;
+let activityMetric = 'mi';
+// MAIN FUNCTIONS
+
+const removeNum = str => str.replace(/[0-9]/g, '');
+const removeChar = str => str.replace(/\D/g, '');
+const removeSpace = str => str.replace(/\s/g, '');
+
+const convertKmToMiles = x => x / 1.609344;
+const changeInnerHtml = (id, change) => { document.getElementById(id).innerHTML = ` ${change}`; };
+const calculateBurn = ({ cal, amount }, { weight }) => parseInt(cal * weight * amount, 10);
+// Generated inputs
+const speedOptions = () => {
+  for (let i = 1; i < 28; i += 1) {
+    const speedContainer = document.getElementById('speedOptions');
+    speedContainer.innerHTML += `<div class="speed-option" id="speedOption" onclick="changeSpeed(${i})">${i} mph</div>`;
+  }
+};
+
+const optionsToggle = () => {
+  const options = document.getElementById('speedOptions');
+  document.addEventListener('click', (e) => {
+    if (e.target.id !== 'speedOption' && options.classList.contains('speed-options-open')) {
+      if (e.target.id !== 'speedValue') {
+        options.classList.remove('speed-options-open');
+      }
+    }
+  });
+  if (!options.classList.contains('speed-options-open')) {
+    options.classList.add('speed-options-open');
+  } else {
+    options.classList.remove('speed-options-open');
+  }
+};
+
+// update values based on distance metric mi/km
+let totalBurnDom = ''; // waiting for total burn element
+const updateTotalBurn = () => {
+  totalBurnDom.innerHTML = walking.burn + running.burn + jumpingjacks.burn;
+};
+// This updates the values after a user changes the metric for distance mi/km
+const updateValues = (a, m) => {
+  const value = parseInt(document.getElementById(`${a.activity}-input`).value, 10);
+  const distanceValue = (m === 'km') ? convertKmToMiles(value) : value;
+  activityMetric = m;
+  document.getElementById(`${a.activity}InputMetric`).innerHTML = m;
+  if (distanceValue > 0) {
+    a.amount = distanceValue; // used to save previously entered calculator input data
+    a.burn = calculateBurn(a, user); // this is used to calculate total burn
+    changeInnerHtml(`calorie${a.activity}`, calculateBurn(a, user));
+    updateTotalBurn();
+  }
+};
+const toggleDistanceMetric = () => {
+  const metric = document.getElementById('walkingInputMetric').innerText; // getting current metric via div text
+  const newMetric = (metric === 'mi') ? 'km' : 'mi';
+  const activityChange = [walking, running];
+  activityChange.forEach((x) => { updateValues(x, newMetric); });
+};
+
+
 const constructActivity = ({ activity }) => {
   const activityNs = removeSpace(activity);
-  const basicString = `<li> <div class="input-items activity-input"> <input type="text" onkeypress="return numOnly(event)" class="input-info" autocomplete="off" maxlength="3" id="${activityNs}-input"><label id="${activityNs}Label">${activity}</label> <div class="input-metric" id="${activityNs}InputMetric"><p>mi</p></div> <div class="calories-burned">Calories Burned<span class="calorie-counter" id="calorie${activityNs}"> 0 </span></div> </div> </li>`;
-  const runningString = `<li> <div class="input-items activity-input"> <input type="text" onkeypress="return numOnly(event)" class="input-info" autocomplete="off" maxlength="3"  id="${activityNs}-input"><input type="text" maxlength= "2" onkeypress="return numOnly(event)" class="speed-input" id="speedValue" value="6"><div class="mph">mph</div> <label id="${activityNs}Label">${activity}</label><div class="input-metric" id="${activityNs}InputMetric"><p>mi</p></div> <div class="calories-burned">Calories Burned<span class="calorie-counter" id="calorie${activityNs}"> 0 </span></div> </div> </li>`;
-  const output = (activity === 'running') ? runningString : basicString;
+  const walkingString = `<div class="activity-card-container"> <div class="input-items activity-input"><div class="input-background"></div> <input type="text" onkeypress="return numOnly(event)" class="input-info" autocomplete="off" maxlength="3" id="${activityNs}-input"><label id="${activityNs}Label">${activity}</label> <div class="input-metric" id="${activityNs}InputMetric"><p>mi</p></div> <div class="calories-burned">Calories Burned<span class="calorie-counter" id="calorie${activityNs}"> 0 </span></div> </div> </div>`;
+  const runningString = `<div class="activity-card-container"><div class="input-items activity-input"><div class="input-background"></div> <input type="text" onkeypress="return numOnly(event)" class="input-info" autocomplete="off" maxlength="3"  id="${activityNs}-input"/><label id="${activityNs}Label">${activity}</label><div class="speed-input" id="speedValue" onclick="optionsToggle()">6</div><div class="speed-options-container" id="speedOptions"></div><div class="mph">mph</div> <div class="input-metric" id="${activityNs}InputMetric"><p>mi</p></div> <div class="calories-burned">Calories Burned<span class="calorie-counter" id="calorie${activityNs}"> 0 </span></div> </div> </div>`;
+  const jumpingjackString = `<div class="activity-card-container"> <div class="input-items activity-input"><div class="input-background"></div> <input type="text" onkeypress="return numOnly(event)" class="input-info" autocomplete="off" maxlength="3" id="${activityNs}-input"><label id="${activityNs}Label">${activity}</label> <div class="input-metric" id="${activityNs}InputMetric"><p>min</p></div> <div class="calories-burned">Calories Burned<span class="calorie-counter" id="calorie${activityNs}"> 0 </span></div> </div> </div>`;
+  let output;
+  if (activity === 'running') {
+    output = runningString;
+  } else if (activity === 'walking') {
+    output = walkingString;
+  } else {
+    output = jumpingjackString;
+  }
   return output;
 };
 const addEventForCals = (activityData) => {
   const id = removeNum(activityData); // Stripping number to just get activity
   document.getElementById(`${id}-input`).addEventListener('keyup', (event) => {
-    let distanceValue;
     const num = removeChar(activityData); // getting number corresponding to activities object
-    distanceValue = (activityMetric === 'mi') ? distanceValue = event.target.value : distanceValue = convertKmToMiles(event.target.value);
+    const distanceValue = (activityMetric === 'mi') ? event.target.value : convertKmToMiles(event.target.value);
     activities[num].amount = distanceValue;
-    changeInnerHtml(`calorie${id}`, `${calculateBurn(activities[num], user)}`); // Updating Cal Values
+    changeInnerHtml(`calorie${id}`, ` ${calculateBurn(activities[num], user)}`); // Updating Cal Values
     activities[num].burn = calculateBurn(activities[num], user);
     updateTotalBurn();
   });
 };
-const addListenerEventToActivities = () => { ['walking0', 'running1', 'jumpingjacks2'].forEach((x) => { addEventForCals(x); }); };
-const updateCalories = () => {
-  if (option === 'calc') {
-    running.burn = calculateBurn(running, user);
-    walking.burn = calculateBurn(walking, user);
-    jumpingjacks.burn = calculateBurn(jumpingjacks, user);
-    document.getElementById('calorierunning').innerHTML = ` ${calculateBurn(running, user)} `;
-    document.getElementById('caloriewalking').innerHTML = calculateBurn(walking, user);
-    document.getElementById('caloriejumpingjacks').innerHTML = calculateBurn(jumpingjacks, user);
-    updateTotalBurn();
-  }
-};
-const updateValues = (a) => {
-  const value = parseInt(document.getElementById(`${a}-input`).value, 10);
-  console.log(activityMetric);
-  const distanceValue = (activityMetric === 'km') ? convertKmToMiles(value) : value;
-  if (distanceValue > 0) {
-    switch (a) {
-      default:
-        alert('Unknown error ;)');
-        break;
-      case 'walking':
-        walking.amount = distanceValue;
-        walking.burn = calculateBurn(walking, user);
-        changeInnerHtml(`calorie${a}`, calculateBurn(walking, user));
-        break;
-      case 'running':
-        running.amount = distanceValue;
-        running.burn = calculateBurn(running, user);
-        changeInnerHtml(`calorie${a}`, calculateBurn(running, user));
-        break;
-      case 'jumping jacks':
-        jumpingjacks.amount = distanceValue;
-        jumpingjacks.burn = calculateBurn(jumpingjacks, user);
-        changeInnerHtml(`calorie${a}`, calculateBurn(running, user));
-    }
-    updateTotalBurn();
-  }
-};
-const changeMetric = (x) => {
-  const metricDom = document.getElementById(`${x}InputMetric`);
+
+const changeMetric = () => {
+  const metricDisplay = document.getElementById('currentMetric');
+  const metricDom = document.getElementById('weightDropdown');
   switch (weightMetric) {
     default:
       alert('Unknown error ;)');
       break;
     case 'lb':
-      metricDom.innerHTML = '<p>kg</p>';
+      metricDisplay.innerHTML = 'lb';
+      metricDom.innerHTML = 'kg';
       break;
     case 'kg':
-      metricDom.innerHTML = '<p>lb</p>';
+      metricDisplay.innerHTML = 'kg';
+      metricDom.innerHTML = 'lb';
       break;
   }
 };
 // LISTENER EVENT FUNCTIONS
+const closeMetricDropdown = () => {
+  const drop = document.getElementById('weightDropdown');
+  const icon = document.getElementById('dropdown');
+  const input = document.getElementById('weightInputMetric');
+  drop.classList.remove('metric-options-open');
+  drop.classList.add('metric-options-closed');
+  icon.classList.add('dropdown-icon');
+  icon.classList.remove('up-icon');
+  setTimeout(() => { input.style.borderBottomRightRadius = '10px'; }, 200);
+};
+const dropdown = document.getElementById('weightDropdown');
+dropdown.addEventListener('click', () => { weightMetric = dropdown.innerHTML; changeMetric(); closeMetricDropdown(); });
+const weightMetricDropdownToggle = () => {
+  const drop = document.getElementById('weightDropdown');
+  const icon = document.getElementById('dropdown');
+  const input = document.getElementById('weightInputMetric');
+  if (drop.classList.contains('metric-options-closed')) {
+    drop.classList.remove('metric-options-closed');
+    drop.classList.add('metric-options-open');
+    icon.classList.remove('dropdown-icon');
+    icon.classList.add('up-icon');
+    input.style.borderBottomRightRadius = 0;
+  } else {
+    drop.classList.remove('metric-options-open');
+    drop.classList.add('metric-options-closed');
+    icon.classList.add('dropdown-icon');
+    icon.classList.remove('up-icon');
+    setTimeout(() => { input.style.borderBottomRightRadius = '10px'; }, 200);
+  }
+};
+document.getElementById('weightInputMetric').addEventListener('click', () => { weightMetricDropdownToggle(); });
 const editWeight = () => {
-  prevWeight = weightInputBox.value;
-  weightInputBox.readOnly = false;
-  weightInputBox.focus();
-  weightInputBox.value = '';
+  prevWeight = weightInput.value;
+  weightInput.readOnly = false;
+  weightInput.focus();
+  weightInput.value = '';
   document.getElementById('weightInputMetric').innerHTML = '<p class="cancel" id="cancelButton">cancel</p>';
   document.getElementById('cancelButton').addEventListener('click', () => cancelEdit()); // Add Event For Edit Button
 };
 const cancelEdit = () => {
   changeInnerHtml('weightInputMetric', '<p class="edit-button" id="editButton">edit</p>');
-  weightInputBox.value = prevWeight;
-  weightInputBox.readOnly = true;
+  weightInput.value = prevWeight;
+  weightInput.readOnly = true;
   // eslint-disable-next-line no-use-before-define
   document.getElementById('editButton').addEventListener('click', () => editWeight()); // Add Event For Edit Button
 };
-const addEventForSpeed = () => {
-  const speedInput = document.getElementById('speedValue');
-  speedInput.addEventListener('keyup', (event) => {
-    const speed = event.target.value;
-    running.cal = 0.1261904761904762; // amount of cals to add for each speed(mph) increase
-    running.cal *= speed;
-    document.getElementById('calorierunning').innerHTML = `${calculateBurn(running, user)}`;
-    running.burn = calculateBurn(running, user);
-    updateTotalBurn();
-  });
-  // Saves the previous Value of speed(mph) and clears input for new value
-  speedInput.addEventListener('focus', () => {
-    currentSpeed = parseInt(speedInput.value, 10);
-    speedInput.value = '';
-  });
-  // Checks for new speed(mph) If not it reverts to the previous speed saved in Current Speed
-  speedInput.addEventListener('focusout', () => {
-    if (speedInput.value.length === 0) {
-      speedInput.value = currentSpeed;
-    } else {
-      currentSpeed = speedInput.value;
-    }
-  });
+const updateRunBurn = () => {
+  const speed = currentSpeed;
+  running.cal = 0.1261904761904762; // amount of cals to add for each speed(mph) increase
+  running.cal *= speed;
+  document.getElementById('calorierunning').innerHTML = ` ${calculateBurn(running, user)}`;
+  running.burn = calculateBurn(running, user);
+  updateTotalBurn();
 };
 
+const changeSpeed = (x) => { currentSpeed = x; document.getElementById('speedValue').innerHTML = currentSpeed; updateRunBurn(); };
 const addEventLabel = (x) => {
   const input = document.getElementById(`${x}-input`);
   input.addEventListener('focus', () => {
     const label = document.getElementById(`${x}Label`);
-
+    console.log(window.innerWidth);
+    if (window.innerWidth < 1001) {
+      label.classList.add('focused-input-mobile');
+    } else {
+      label.classList.add('focused-input');
+    }
   });
   input.addEventListener('focusout', () => {
     if (input.value === '') {
       const label = document.getElementById(`${x}Label`);
-
+      label.classList.remove('focused-input');
+      label.classList.remove('focused-input-mobile');
     }
   });
 };
-const chosenOptionsAnimation = () => {
-  if (option !== 'calc') {
-      displayTotalBurn.style.display = 'block';
-    }
-    changeInnerHtml('container', '');
-    activities.forEach((x) => { document.getElementById('container').innerHTML += constructActivity(x); });
-    activities.forEach((x) => { addEventLabel(removeSpace(x.activity)); });
-    addListenerEventToActivities();
-    addEventForSpeed();
-    addEventForToggle('mile');
-    option = 'calc';
-  }
-
-
+const toggleDistanceButton = '<div class="distance-metric" id="distanceBut"><div id="mi">mi</div><div id="km">km</div></div>';
 // CALCULATOR OPTION LOGIC
-document.getElementById('calculator-button').addEventListener('click', () => chosenOptionsAnimation()); // Add Event For Animation
-const weightInput = document.getElementById('weight-input');
-
-// WeightAnimation
-const info = document.getElementById('info');
-const note = document.getElementById('note');
-const weightAnimation = () => {
-  document.getElementById('weight').style.display = "none";
+const calculatorButtonEvent = () => {
+  document.getElementById('calculator-button').addEventListener('click', () => {
+    if (option === '') {
+      document.getElementById('optionsContainer').classList.remove('option-not-chosen');
+      document.getElementById('optionsContainer').classList.add('option-chosen');
+    }
+    if (option !== 'calc') {
+      option = 'calc';
+      let i = 0;
+      document.getElementById('buttonContainer').innerHTML = toggleDistanceButton;
+      document.getElementById('distanceBut').addEventListener('click', () => toggleDistanceMetric());
+      activities.forEach((x) => {
+        if (i === 0) {
+          i += 1;
+          content.innerHTML = constructActivity(x);
+        } else {
+          content.innerHTML += constructActivity(x);
+        }
+      });
+      background.innerHTML = totalBurnHTML;
+      totalBurnDom = document.getElementById('totalBurnRes');
+      background.style.height = '50vh';
+      speedOptions();
+      ['walking0', 'running1', 'jumpingjacks2'].forEach((x) => { addEventForCals(x); });
+      ['walking', 'running', 'jumpingjacks'].forEach((x) => { addEventLabel(x); });
+    }
+  });
 };
 
-// WEIGHT INPUT LOGIC
-weightInput.addEventListener('keyup', (event) => {
+// WeightAnimation
+const inputGenerate = document.getElementById('inputGenerate');
+const note = document.getElementById('note');
 
-  if (event.keyCode === 13) {
-    if (event.target.value < 10) {
-      console.log('you shall not pass');
-      return;
-    }
-    const pounds = parseInt(event.target.value, 10);
-    updateUserWeight(pounds);
-    updateCalories();
-    weightAnimation();
-    document.getElementById('buttonContainer').style.visibility = 'visible'; 
-    weightInput.readOnly = true;
-  }
-});
+const decisionInfoHtml = `  
+<p><span class="activity-text">Calculator</span> gives you the option to manually input the stats for the activities(walking, running, jumping jacks). <span class="activity-text">Routine</span> will let you generate a routine using those activities based on how many calories you would like to burn.</p>
+`;
+const optionsHtml = `  <div class="option-container option-not-chosen" id="optionsContainer">
+<button id="calculator-button" class="unselectable">Calculator</button><button id="routine-button" class="unselectable">Routine</button>
+</div>`;
+// WEIGHT INPUT LOGIC
+
+const priorityColor = 'rgb(144, 188, 255)';
+const regColor = 'rgb(218, 218, 218)';
+
 
 const convertableMetrcis = ['weight', 'mile'];
 
+
 // ROUTINE GENERATOR LOGIC
-document.getElementById('routine-button').addEventListener('click', () => {
-  if (option !== 'routine') {
-    document.getElementById('mainPriorityContainer').style.visibility= 'visible';
-    document.getElementById('info').style.display = 'none';
-    document.getElementById('background').style.height = "30vh";
-    option = 'routine';
-  }
-});
+const routineHtml = `<div class="main-priorty-container" id="mainPriorityContainer">
+<div class="split-button" id="splitPriority">Split Evenly</div>
+<div class="priority-container">
+   <h2>Walking</h2>
+   <div class="priority-button" id="walking_high">high</div>
+   <div class="priority-button" id="walking_med">med</div>
+   <div class="priority-button" id="walking_low">low</div>
+</div>
+   <div class="priority-container">
+       <h2>Running</h2>
+       <div class="priority-button" id="running_high">high</div>
+       <div class="priority-button" id="running_med">med</div>
+       <div class="priority-button" id="running_low">low</div>
+   </div>
+   <div class="priority-container" style="margin-right:0 !important;">
+       <h2>Jumping Jacks</h2>
+       <div class="priority-button" id="jumpingjacks_high">high</div>
+       <div class="priority-button" id="jumpingjacks_med">med</div>
+       <div class="priority-button" id="jumpingjacks_low">low</div>
+   </div>
+   <div class="generate-button" id="generateRoutine">Generate Routine</div>
+   <div id="showResults"></div>
+</div>`;
+
 activities.forEach((x) => { const y = x; y.percentage = 100 / activities.length; });
 const prioritiesArr = ['high', 'med', 'low'];
 const changePercentage = (activity, priority) => {
@@ -274,9 +407,12 @@ const changePercentage = (activity, priority) => {
       jumpingjacks.percentage = percentage;
   }
 };
-changePercentage('walking', 'high');
-changePercentage('running', 'med');
-changePercentage('jumping jacks', 'low');
+
+const splitPriority = () => {
+  walking.percentage = 33.33333333333333;
+  running.percentage = 33.33333333333333;
+  jumpingjacks.percentage = 33.33333333333333;
+};
 
 // ADDING EVENTS TO PRIORITY BUTTONS
 let activityhigh = 'walking'; let activitymed = 'running'; let activitylow = 'jumping jacks';
@@ -284,15 +420,15 @@ let activityhigh = 'walking'; let activitymed = 'running'; let activitylow = 'ju
 const changeInnerPriority = (a, priority) => {
   prioritiesArr.forEach((p) => {
     if (p !== priority) {
-      document.getElementById(`${removeSpace(a)}_${p}`).style.backgroundColor = 'yellow';
+      document.getElementById(`${removeSpace(a)}_${p}`).style.backgroundColor = regColor;
     }
   });
 };
 const changingPriority = (activity, priority) => {
   let from;
   const newPriority = (h, m, l) => { activityhigh = h; activitymed = m; activitylow = l; };
-  ['high', 'med', 'low'].forEach((x) => { if (document.getElementById(`${removeSpace(activity)}_${x}`).style.backgroundColor === 'black') { from = x; } });
-  document.getElementById(`${removeSpace(activity)}_${priority}`).style.backgroundColor = 'black';
+  ['high', 'med', 'low'].forEach((x) => { if (document.getElementById(`${removeSpace(activity)}_${x}`).style.backgroundColor === priorityColor) { from = x; } });
+  document.getElementById(`${removeSpace(activity)}_${priority}`).style.backgroundColor = priorityColor;
   changeInnerPriority(activity, priority);
   let newhigh; let newmed; let newlow;
   console.log(activity, activityhigh);
@@ -341,32 +477,21 @@ const changingPriority = (activity, priority) => {
   console.log(activityhigh, activitymed, activitylow);
   activities.forEach((x) => {
     if (x.activity === activityhigh) {
-      document.getElementById(`${removeSpace(x.activity)}_high`).style.backgroundColor = 'black';
+      document.getElementById(`${removeSpace(x.activity)}_high`).style.backgroundColor = priorityColor;
       changePercentage(x.activity, 'high');
       changeInnerPriority(x.activity, 'high');
     } else if (x.activity === activitymed) {
-      document.getElementById(`${removeSpace(x.activity)}_med`).style.backgroundColor = 'black';
+      document.getElementById(`${removeSpace(x.activity)}_med`).style.backgroundColor = priorityColor;
       changePercentage(x.activity, 'med');
       changeInnerPriority(x.activity, 'med');
     } else if (x.activity === activitylow) {
-      document.getElementById(`${removeSpace(x.activity)}_low`).style.backgroundColor = 'black';
+      document.getElementById(`${removeSpace(x.activity)}_low`).style.backgroundColor = priorityColor;
       changePercentage(x.activity, 'low');
       changeInnerPriority(x.activity, 'low');
     }
   });
 };
 
-document.getElementById(`${removeSpace(activityhigh)}_high`).style.backgroundColor = 'black';
-document.getElementById(`${removeSpace(activitymed)}_med`).style.backgroundColor = 'black';
-document.getElementById(`${removeSpace(activitylow)}_low`).style.backgroundColor = 'black';
-activities.forEach(({ activity }) => {
-  prioritiesArr.forEach((priority) => {
-    const button = document.getElementById(`${removeSpace(activity)}_${priority}`);
-    button.addEventListener(('click'), (event) => {
-      changingPriority(activity, priority, event.target.id);
-    });
-  });
-});
 
 const createRoutine = ({
   activity, metric, cal, percentage,
@@ -377,7 +502,7 @@ const createRoutine = ({
   const calsBurned = calPerMetric * amountNeeded;
   return `<div>${Math.round(amountNeeded * 10) / 10} ${metric}s of ${activity}: ${Math.round(calsBurned * 10) / 10} <div>`;
 };
-const executeRoutine = () => { document.getElementById('container').innerHTML = activities.map(createRoutine).join(''); };
+const executeRoutine = () => { document.getElementById('showResults').innerHTML = activities.flatMap(createRoutine).join(''); };
 const targetCal = () => document.getElementById('target-cal').addEventListener('keyup', (event) => {
   if (event.keyCode === 13) {
     user.targetBurn = event.target.value;
