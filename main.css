@@ -1,0 +1,521 @@
+*{
+    margin:0;
+    padding:0;
+    font-family: Roboto;
+}
+body{
+
+}
+button{
+    cursor: pointer;
+}
+
+button:focus{
+    outline:none;
+}
+#content{
+    display: flex;
+}
+.arrow{
+    width:5px;
+    height:5px;
+    border: 2px solid rgb(255, 255, 255);
+    border-width: 0px 2px 2px 0px;
+    border-radius: 2px;
+}
+.generate-button{
+    position: absolute;
+    bottom: 0;
+    background-color: #90BCFF;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition-duration: .3s;
+}
+.generate-button:hover{
+    background-color: rgb(159, 197, 255);
+}
+.dropdown-icon{
+    transform: rotate(45deg);
+  }
+.up-icon{
+    transform: rotate(-135deg);
+}
+.metric-options-open{
+    height: 50px;
+}
+.metric-options-closed{
+    height: 0px;
+}
+.metric-change{
+    position: absolute;
+    top:50%;
+    margin-top: -2.5px;
+    right:10%;
+  }
+.background{
+    background-color: #6DA7FF;
+    height:45vh;
+    width:100%;
+    box-shadow: 4px 0px 4px rgba(92, 92, 92, 0.26);
+    display: flex;
+    justify-content: center;
+    position: relative;
+    min-height: 300px;
+    z-index: -3;
+}
+.button-container{
+    position: absolute;
+    top:40%;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #878787;
+font-family: Roboto;
+    font-weight:lighter;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #878787;
+  font-family: Roboto;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #878787;
+  font-family: Roboto;
+}
+h1{
+    color: white;
+    position: absolute;
+    top:-75px;
+    font-size: 1.8em;
+}
+input:focus{
+    outline:none;
+}
+.input-items{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: center;
+    width:100%;
+}
+
+.input-container{
+    position: relative;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: center;
+    width:80%;
+    max-width: 350px;
+    min-width: 300px;
+}
+.user-weight{
+    position: absolute;
+    top:0;
+    margin:1%;
+    color:white;
+}
+.weight-number{
+    font-weight: bolder;
+    font-size: 2em;
+}
+.metric-dropdown{
+    width:50px;
+    border-radius: 0px 0px 10px 10px;
+    background: #56d6b8;
+    position: absolute;
+    right:-10px;
+    top:30px;
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+    line-height: 50px;
+    overflow: hidden;
+    transition-duration: .2s;
+    user-select: none;
+    cursor: pointer;
+}
+
+.input-info{
+    width:100%;
+    height:45px;
+    border-radius:10px;
+    border:none;
+    box-shadow: 4px 0px 4px rgba(92, 92, 92, 0.26);
+    align-self: center;
+    background-color:white;
+    padding:5px;
+    padding-left:15px;
+    margin-top:-25px;
+    font-size: 1.5em;
+    color: #4a4a4a;
+}
+.input-metric{
+    position: absolute;
+    right:0;
+    background-color:blue;
+    height: 45px;
+    width:40px;
+    padding:5px;
+    top:-25px;
+    line-height: 45px;
+    border-radius: 0px 10px 10px 0px;
+    text-align: center;
+    background-color: #76E7CD;
+    color:white;
+    font-family: Roboto;
+    font-weight: bolder;
+    font-size: 1.5em;
+    cursor: pointer;
+    user-select: none;
+}
+.info-text{
+    color:#797979;
+    text-align: center;
+    margin-top: 15vh;
+    width:100%;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+}
+.info-text p{
+    font-size: 1.2em;
+    max-width: 700px;
+}
+.activity-text{
+    font-weight: bolder;
+}
+.option-container{
+    width: 100%;
+}
+.option-not-chosen{
+    margin-top:-30px;
+    display: flex;
+    justify-content: center;
+}
+.option-chosen{
+    position: absolute;
+    width:30%;
+    top:0;
+    right:0;
+}
+.option-container button{
+    border:none;
+    padding:10px;
+    width:15%;
+    height: 60px;
+    border-radius: 10px;
+    color:white;
+    box-shadow: 4px 0px 4px rgba(92, 92, 92, 0.26);
+    min-width: 300px;
+    max-width: 350px;
+    font-size:1.5em;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+#calculator-button{
+    background-color:#90BCFF;
+    margin-right: 5%;
+    transition-duration: .2s;
+}
+#calculator-button:hover{
+    background-color: #79aeff
+}
+#routine-button{
+    background-color:#76E7CD;
+    transition-duration: .2s;
+}
+#routine-button:hover{
+    background-color: #49e8c4;
+}
+.activity-card-container{
+    width:100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    
+}
+.input-info{
+    width:50%;
+    width:100%;
+    position: absolute;
+    top:0;
+    min-width: 300px;
+}
+.input-background{
+    width:100%;
+    height: 60px;
+    background: white;
+    z-index: 2;
+    z-index: -2;
+    position: absolute;
+    top:-25px;
+    left: -10px;
+    border-radius: 10px;
+    
+}
+.activity-input{
+    position: relative;
+    width:20%;
+    height:60px;
+    margin-right:4%;
+    min-width: 300px;
+    top:0;
+    
+}
+.activity-input .input-info{
+    background:rgba(255, 255, 255, 0);
+}
+.input-metric{
+    right:-10px;
+}
+.calories-burned{
+    position: absolute;
+    bottom:0;
+    right:20px;
+}
+
+.activity-input label{
+    position: absolute;
+    color:gray;
+    left:0;
+    top:-10px;
+    font-size: 1.2em;
+    font-weight: normal;
+    z-index: -1;
+    transition-duration: .3s;
+}
+.speed-input{
+    position: absolute;
+    top:-10px;
+    right:0;
+    background: #c6c6c6;
+    border:none;
+    padding:5px;
+    color: white;
+    border-radius: 5px;
+    width:100px;
+    font-size: .9em;
+    height: 20px;
+    cursor: pointer;
+}
+.mph{
+    position: absolute;
+    top:0;
+    right:60px;
+    font-size: .9em;
+    color: white;
+    top:-5px;
+    cursor: pointer;
+}
+.total-calories-burned{
+    color:white;
+    font-size: 2em;
+    text-align: center;
+    position: absolute;
+    top:65%;
+}
+.total-title{
+    font-weight: lighter;
+}
+.calorie-counter{
+ font-weight: bolder;
+    font-family: 'Raleway', sans-serif;
+    letter-spacing: 1px;
+    color: #FF8A00;
+}
+#totalBurnRes{
+    color:white;
+}
+.activity-metric-container{
+    height: 56px;
+    width: 150px;
+    border-radius: 10px;
+    position: absolute;
+    left:2%;
+    bottom:20%;
+    color: white;
+}
+.activity-metric-container div{
+    width:50%;
+    height:100%;
+    position: absolute;
+    font-size: 1.7em;
+    line-height: 55px;
+    text-align: center;
+    cursor: pointer;
+    
+}
+.mi{
+    left:0;
+    background-color: #76E7CD;
+    color:#ffffff;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.km{
+    background-color: white;
+    color:#ABABAB;
+    right:0;
+    border-radius: 0px 10px 10px 0px;
+}
+.priority-button{
+    display: inline-block;
+    width:80px;
+    height: 28px;
+    background: #DADADA;
+    border-radius: 5px;
+    color:white;
+    text-align: center;
+    line-height: 28px;
+    cursor: pointer;
+}
+.main-priorty-container{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    height: 400px;
+    position: relative;
+    min-width: 300px;
+}
+.priority-container{
+    margin-right:5%;
+    margin-top: 10%;
+    text-align: center;
+}
+.priority-container h2{
+    margin-bottom: 15px;
+    color: #8B8B8B;
+}
+.split-button{
+    width:200px;
+    height:30px;
+    background: #90BCFF;
+    border-radius: 10px;
+    color:white;
+    text-align: center;
+    line-height: 30px;
+    box-shadow: 2px 2px 2px #ccc;
+    position: absolute;
+    top:23%;
+}
+
+.speed-list{
+    width:100px;
+    position: absolute;
+    background:#d0d0d0;
+    right:10px;
+    top:20px;
+}
+.activity-input .focused-input{
+    top:-50px;
+    position: absolute;
+    color:white;
+}
+.activity-input .focused-input-mobile{
+    top:-50px;
+    position: absolute;
+    color: gray;
+}
+.distance-metric{
+    width:60px;
+    background: gray;
+    text-align: center;
+    border-radius: 5px;
+    position: relative;
+    height: 25px;
+    cursor: pointer;
+}
+.distance-metric div{
+    display: inline;
+    padding:0px;
+    background: white;
+    width:50%;
+    position: absolute;
+    top:0;
+    height:100%;
+    line-height: 25px;
+    color:white;
+}
+#mi{
+    left:0;
+    background: #6868ff;
+    border-radius: 5px 0px 0px 5px;
+}
+#km{
+    border-radius: 0px 5px 5px 0px;
+    background: gray;
+}
+@media only screen and (max-width: 700px) {
+    .background{
+        height: 30vh;
+        min-height: 230px;
+    }
+    .total-calories-burned{
+        top:100px;
+    }
+    .activity-card-container{
+        flex-flow: row wrap;
+    }
+    .activity-input:first-child{
+        margin-top:0;
+        background-color: white;
+    }
+    .activity-input{
+        width:90%;
+        margin-top:60px;
+    }
+    .activity-metric-container{
+        position: fixed;
+        bottom:10px;
+        box-shadow: 0px 2px 2px #ccc;
+        left:50%;
+        margin-left: -75px;
+    }
+   
+    
+   
+}
+@media only screen and (max-width: 1000px) {
+     .main-priorty-container{
+        width:100%;
+        display: flex;
+        justify-content: center;
+        height: 400px;
+        position: relative;
+        flex-flow: column nowrap;
+         align-content: center;
+    }
+    .activity-card-container{
+        margin-top:40px;
+    }
+    #content{
+        flex-flow: column;
+    }
+}
+
+.display-none{
+    visibility: hidden;
+    position: absolute;
+}
+.speed-options-container{
+    background: gray;
+    border-radius: 5px;
+    position: absolute;
+    top:17px;
+    right:40px;
+    height: 0px;
+    overflow-y: scroll;
+    z-index: 1;
+    transition-duration: .5s;
+}
+.speed-options-open{
+    height:200px;
+    
+}
+.speed-option{
+    cursor: pointer;
+}

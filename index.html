@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Calories Calculator</title>
+        <meta charset="UTF-8">
+        <link rel="icon" href="favicon.ico" sizes="16x16" type="image/png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=PT+Sans|Raleway|Roboto|Sarabun|Source+Sans+Pro" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="main.css">
+        <script>
+            const numOnly = (x) => {
+                const charCode = (x.which) ? x.which : x.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            };
+        </script>
+    </head>
+    <body>
+        <main>
+         <div class="background" id="background"></div>
+         <div class='main-options' id='mainOptions'>
+
+         </div>
+         <div class="user-weight" id="displayWeight"></div>
+            <div class="button-container" id="buttonContainer"></div>
+                 <div class="input-items display-none" id="target">
+                            <div class="input-container">
+                                <h1>Enter Target Burn</h1>
+                                <input type="text" onkeypress="return numOnly(event)" placeholder="Calories"  id="target-input" class="input-info" autocomplete="off" maxlength="4">
+                               
+                               
+                            </div>
+                        </div>
+                      <div id="inputGenerate">
+                        <div class="input-items" id="weight">
+                            <div class="input-container">
+                                <h1>Enter Your Weight</h1>
+                                <input type="text" onkeypress="return numOnly(event)" placeholder="Weight"  id="weight-input" class="input-info" autocomplete="off" maxlength="3" autofocus>
+                                <div class="input-metric" id="weightInputMetric"><span id="currentMetric">lb</span><div class='arrow dropdown-icon metric-change' id="dropdown"></div></div>
+                                <div class="metric-dropdown metric-options-closed" id="weightDropdown">kg</div>
+                            </div>
+                        </div>
+                            
+                        </div>
+ 
+                        <div id="content">
+                           
+                        </div>
+                     
+
+                
+        </main>
+                   
+    
+        <script src="calburned.js"></script>
+        <script>
+            document.getElementById('weight-input').addEventListener('focus', () => {
+                const label = document.getElementById('weightLabel');
+            });
+        </script>
+    </body>
+</html>
