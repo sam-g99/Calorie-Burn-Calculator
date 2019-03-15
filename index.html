@@ -19,41 +19,81 @@
     </head>
     <body>
         <main>
-         <div class="background" id="background"></div>
-         <div class='main-options' id='mainOptions'>
+            <button onclick="showCalculatorSection()">Calc</button>
+            <button onclick="returnToHome()">Home</button>
+        <div class="container">
+                <div class="toggle-modes" id="toggleTheme">
+                        <div class="light-mode" id="lightMode"><span id="lightText">You're in <span id="mode">light</span> mode!</span><span class="sun-icon">&#9728;</span></div>
+                        <div class="dark-mode try other-mode no-select" id="darkMode" onclick="toggleTheme()"><span id="currentTheme">Try Dark Mode</span></div>
+                    </div>
+                <div class="total-calories-burned hidden" id="totalBurnDisplay">
+                        <p>You'd burn <span class="calorie-counter" id="totalBurnRes">0</span> <span class="break"> calories in total</span></p>
+                               </div>
 
-         </div>
          <div class="user-weight" id="displayWeight"></div>
             <div class="button-container" id="buttonContainer"></div>
-                 <div class="input-items display-none" id="target">
+                <!-- <div class="input-items hidden" id="target">
                             <div class="input-container">
                                 <h1>Enter Target Burn</h1>
                                 <input type="text" onkeypress="return numOnly(event)" placeholder="Calories"  id="target-input" class="input-info" autocomplete="off" maxlength="4">
                                
                                
                             </div>
-                        </div>
-                      <div id="inputGenerate">
-                        <div class="input-items" id="weight">
-                            <div class="input-container">
-                                <h1>Enter Your Weight</h1>
+                        </div>-->
+                        <div class="input-container" id="weightInput">
+                                <div class="greeting">
+                                <div class="enter-text">Enter your weight to get started</div>
+                            </div>
                                 <input type="text" onkeypress="return numOnly(event)" placeholder="Weight"  id="weight-input" class="input-info" autocomplete="off" maxlength="3" autofocus>
-                                <div class="input-metric" id="weightInputMetric"><span id="currentMetric">lb</span><div class='arrow dropdown-icon metric-change' id="dropdown"></div></div>
+                                <div class="weight-metric input-metric" id="weightInputMetric"><span id="currentMetric">lb</span><div class='arrow metric-change' id="dropdown"></div></div>
                                 <div class="metric-dropdown metric-options-closed" id="weightDropdown">kg</div>
                             </div>
-                        </div>
                             
-                        </div>
+               
  
-                        <div id="content">
-                           
-                        </div>
-                     
-
-                
-        </main>
-                   
     
+                        <div class="distance-metric hidden" id="distanceBut"><div id="mi">mi</div><div id="km">km</div></div>
+                        <div class="calculator-section hidden" id="calculatorSection">
+                                <div class="activity-inputs-container">
+                                   <div class="activity-card-container"> 
+                                                    <div class="input-container">
+                                          
+                                                <div class="enter-text">Enter miles walked</div>
+                                
+                                                    <div class="input-items activity-input"> <input type="text" onkeypress="return numOnly(event)" class="input-info" placeholder="Walked" autocomplete="off" maxlength="3" id="walking-input"> <div class="input-metric" id="walkingInputMetric"><p>mi</p></div> <div class="calories-burned">Calories Burned<span class="calorie-counter" id="caloriewalking"> 0 </span></div> </div> </div>
+                                                </div>
+                                                      <div class="activity-card-container"> 
+                                                    <div class="input-container">
+                                             
+                                                <div class="enter-text">Enter miles ran</div>
+                                                        <div class="speed-input" id="speedValue" onclick="optionsToggle()">6 <span id="runSpeedMetric">mph</span></div>
+                                                    <div class="input-items activity-input"> <input type="text" onkeypress="return numOnly(event)" class="input-info" placeholder="Ran" autocomplete="off" maxlength="3" id="running-input"> <div class="input-metric" id="runningInputMetric"><p>mi</p></div> <div class="calories-burned">Calories Burned<span class="calorie-counter" id="calorierunning"> 0 </span></div> </div> </div>
+                                                </div>
+                                                
+                                                     <div class="activity-card-container"> 
+                                                    <div class="input-container">
+                                   
+                                                <div class="enter-text">Enter minutes jumped</div>
+                                
+                                                    <div class="input-items activity-input"> <input type="text" onkeypress="return numOnly(event)" class="input-info" placeholder="Jumping Jacks" autocomplete="off" maxlength="3" id="jumpingjacks-input"> <div class="input-metric" id="jumpingjacksInputMetric"><p>mi</p></div> <div class="calories-burned">Calories Burned<span class="calorie-counter" id="caloriejumpingjacks"> 0 </span></div> </div> </div>
+                                                </div>
+                                </div>
+                        <div class="hidden" id="routineSection">
+                                
+                            </div>
+                       
+                     
+</div>
+<div class="fun-facts">
+        <h2>Fun Calorie Facts</h2>
+          <div class="fact-card">
+              <p id="fact">You burn more calories than you consume when chewing celery</p>
+              <p id="comment">Do with that fact what you will</p>
+          </div>
+        </div>
+                </div>
+                   
+    </main>
         <script src="calburned.js"></script>
         <script>
             document.getElementById('weight-input').addEventListener('focus', () => {
