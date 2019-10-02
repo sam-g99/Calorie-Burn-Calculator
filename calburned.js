@@ -144,6 +144,9 @@ const facts = [
     comment: 'And they say texting for a long time is bad',
   },
   {
+    fact: 'Exercise Does Not Help By Burning Calories',
+    comment: 'Calories make me fat'
+  }
     fact: 'You burn dozens of calories per hour while sleeping, and even more during REM sleep',
     comment: 'Who knew taking a nap could be such a great workout?',
   },
