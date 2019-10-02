@@ -9,14 +9,14 @@
     width: 5px;
 }
 ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+    background: #f1f1f1;
   }
-   
+
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: rgb(124, 124, 124); 
+    background: rgb(124, 124, 124);
   }
-  
+
 body{
     transition: background .2s;
 }
@@ -29,7 +29,7 @@ body{
 }
 button{
     cursor: pointer;
-} 
+}
 .no-select{
     user-select: none;
 }
@@ -317,7 +317,7 @@ input:focus{
     align-content: center;
     justify-content: center;
     align-self: center;
-    
+
 }
 
 
@@ -331,7 +331,7 @@ input:focus{
     top:-25px;
     left: -10px;
     border-radius: 10px;
-    
+
 }
 .activity-input{
     width:100%;
@@ -339,7 +339,7 @@ input:focus{
     height:80px;
     margin-right:4%;
     top:0;
-    
+
 }
 
 
@@ -407,7 +407,7 @@ input:focus{
     line-height: 55px;
     text-align: center;
     cursor: pointer;
-    
+
 }
 .mi{
     left:0;
@@ -539,7 +539,7 @@ input:focus{
 }
 .speed-options-open{
     height:200px;
-    
+
 }
 .speed-option{
     cursor: pointer;
@@ -672,8 +672,8 @@ h2{
         height: 110px;
     }
 
-    
-   
+
+
 }
 @media only screen and (max-width: 700px) {
     .container{
