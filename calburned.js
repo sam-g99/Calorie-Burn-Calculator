@@ -150,9 +150,12 @@ const facts = [
   {
     fact: 'Chewing Gum burns 11 calories per Hour',
     comment: 'Keep Chewing gums. Nom Nom Nom Nom.',
+  },
+  {
     fact: 'Exercise Does Not Help By Burning Calories',
     comment: 'Calories make me fat'
-  }
+  },
+  {
     fact: 'You burn dozens of calories per hour while sleeping, and even more during REM sleep',
     comment: 'Who knew taking a nap could be such a great workout?',
   },
