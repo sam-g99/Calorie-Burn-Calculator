@@ -143,6 +143,10 @@ const facts = [
     fact: 'Constant texting can burn 40 Calories per hour',
     comment: 'And they say texting for a long time is bad',
   },
+  {
+    fact: 'Exercise Does Not Help By Burning Calories',
+    comment: 'Calories make me fat'
+  }
 ];
 let factNum = 0;
 const showFact = () => {
