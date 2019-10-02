@@ -143,6 +143,14 @@ const facts = [
     fact: 'Constant texting can burn 40 Calories per hour',
     comment: 'And they say texting for a long time is bad',
   },
+  {
+    fact: 'Calories keep you alive, help you build new tissue, and give you energy to move around.',
+    comment: 'Dont worry as anything in excess is definetely harmful',
+  },
+  {
+    fact: 'Chewing Gum burns 11 calories per Hour',
+    comment: 'Keep Chewing gums. Nom Nom Nom Nom.',
+  },
 ];
 let factNum = 0;
 const showFact = () => {
