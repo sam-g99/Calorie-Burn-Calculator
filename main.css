@@ -631,8 +631,16 @@ h2{
     color:rgb(180, 116, 21);
 }
 
-.inputs-container {
+.moon-icon {
+    color:yellow;
+    font-size: 2em;
+    float: right;
+    margin-top:-12px;
+    margin-left: 5px;
+}
 
+
+.inputs-container {
     position: absolute;
     width:100%;
 }
