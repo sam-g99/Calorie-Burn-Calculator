@@ -143,6 +143,14 @@ const facts = [
     fact: 'Constant texting can burn 40 Calories per hour',
     comment: 'And they say texting for a long time is bad',
   },
+  {
+    fact: 'You burn dozens of calories per hour while sleeping, and even more during REM sleep',
+    comment: 'Who knew taking a nap could be such a great workout?',
+  },
+  {
+    fact: '10 lbs of muscle burns 50 calories a day at rest, while 10 lbs of fat only burns 20',
+    comment: 'Time to pump some iron!',
+  },
 ];
 let factNum = 0;
 const showFact = () => {
