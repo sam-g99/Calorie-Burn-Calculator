@@ -106,14 +106,19 @@ weightInput.addEventListener('keyup', (event) => {
 const toggleTheme = () => {
   const darkModeButton = document.getElementById('currentTheme');
   const mode = document.getElementById('mode');
+  const icon = document.getElementById('icon')
   if (!document.body.classList.contains('dark-theme')) {
     document.body.classList.add('dark-theme');
     mode.innerHTML = 'dark';
+    icon.innerHTML = '&#x263d;';
+    icon.className = "moon-icon"
     darkModeButton.innerHTML = 'Back to light mode';
   } else {
     document.body.classList.remove('dark-theme');
     darkModeButton.innerHTML = 'Back to dark mode';
     mode.innerHTML = 'light';
+    icon.innerHTML = '&#9728;';
+    icon.className = "sun-icon"
   }
 };
 // FUN FACTS LOGIC
