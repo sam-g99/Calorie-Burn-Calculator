@@ -75,7 +75,11 @@ const weightInput = document.getElementById('weight-input');
 weightInput.addEventListener('keyup', (event) => {
   if (event.keyCode === 13) {
     if (event.target.value < 10) {
+      document.getElementById('alert-value').innerHTML = `The weight you entered must be greater than 10 ${weightMetric}!`
+      document.getElementById('alert').style.display = 'block'
       return;
+    }else{
+      document.getElementById('alert').style.display = 'none'
     }
     const pounds = parseInt(event.target.value, 10); // Getting the weight the user inputed
     updateUserWeight(pounds);
@@ -388,7 +392,6 @@ const saveEdit = () =>{
     const activityChange = [walking, running, jumpingjacks];
     activityChange.forEach((x) => { updateValues(x, activityMetric); });
     changeInnerHtml('buttonsContainer', '<p class="edit-button" onclick="editWeight()" id="editButton">Change Weight</p>');
-    document.getElementById('alert').style.display = 'none'
   }else{
     document.getElementById('alert-value').innerHTML = `The weight you entered must be greater than 10 ${weightMetric}!`
     document.getElementById('alert').style.display = 'block'
