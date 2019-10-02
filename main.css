@@ -24,6 +24,14 @@ body{
     border:2px solid;
     padding:.2em;
 }
+.error-message{
+    color:red;
+    font-size: 18px;
+    margin-top: 60px;
+}
+#weight-input-error {
+    display: none;
+}
 .hidden{
     display: none;
 }
