@@ -170,7 +170,7 @@ const facts = [
   },
   {
     fact: 'A person will burn 7 percent more calories if they walk on hard dirt compared to pavement',
-    comment: 'Mom always said to stay out of the street', 
+    comment: 'Mom always said to stay out of the street',
   },
 ];
 let factNum = 0;
@@ -241,7 +241,7 @@ const returnToHome = () => {
 const optionsToggle = () => {
   const options = document.getElementById('speedOptions');
   const dropdown = document.getElementById('metric-dropdown');
-  document.addEventListener('click', (e) => { // Clicking outside 
+  document.addEventListener('click', (e) => { // Clicking outside
     if (e.target.id !== 'speedOption' && options.classList.contains('speed-options-open')) {
       if (e.target.id !== 'speedValue' && e.target.id !== 'metric-dropdown') {
         options.classList.remove('speed-options-open');
@@ -251,7 +251,7 @@ const optionsToggle = () => {
   if (!options.classList.contains('speed-options-open')) {
     options.classList.add('speed-options-open');
     dropdown.classList.add('up-icon');
-    
+
   } else {
     options.classList.remove('speed-options-open');
     dropdown.classList.remove('up-icon');
@@ -388,8 +388,10 @@ const saveEdit = () =>{
     const activityChange = [walking, running, jumpingjacks];
     activityChange.forEach((x) => { updateValues(x, activityMetric); });
     changeInnerHtml('buttonsContainer', '<p class="edit-button" onclick="editWeight()" id="editButton">Change Weight</p>');
+    document.getElementById('alert').style.display = 'none'
   }else{
-    alert('Your weight needs to be greater than 10')
+    document.getElementById('alert-value').innerHTML = `The weight you entered must be greater than 10 ${weightMetric}!`
+    document.getElementById('alert').style.display = 'block'
   }
 
 };

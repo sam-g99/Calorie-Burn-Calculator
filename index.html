@@ -23,6 +23,10 @@
 
 <body>
     <main>
+        <div class="alert" id="alert">
+            <span class="close-alert" onclick="this.parentElement.style.display='none';">&times;</span>
+            <p id="alert-value">This is a alert!</p>
+        </div>
         <div class="container">
             <div class="toggle-modes" id="toggleTheme">
                 <div class="light-mode" id="lightMode"><span id="lightText">You're in <span id="mode">light</span>
@@ -37,7 +41,7 @@
 
             <div class="user-weight" id="displayWeight"></div>
             <div class="button-container" id="buttonContainer"></div>
-    
+
             <div class="input-container" id="weightInput">
                 <div class="greeting">
                     <div class="enter-text">Enter your weight to get started</div>
@@ -64,7 +68,7 @@
                             </div>
                             <div class="enter-text">Enter miles walked</div>
 
-                            <div class="input-items activity-input"> <input type="tel" maxlength='3' 
+                            <div class="input-items activity-input"> <input type="tel" maxlength='3'
                                     onkeypress="return numOnly(event)" class="input-info" placeholder="Walked"
                                     autocomplete="off"  id="walking-input">
                                 <div class="input-metric" id="walkingInputMetric">
@@ -81,7 +85,7 @@
                             <div class="enter-text">Enter miles ran</div>
                             <div class="speed-input no-select" id="speedValue" onclick="optionsToggle()">6 mph <div class='arrow metric-change mph-drop' id="metric-dropdown"></div></div>
                                     <div class="speed-options-container" id="speedOptions" onclick="optionsToggle()"></div>
-                            <div class="input-items activity-input"> <input type="tel" maxlength='3' 
+                            <div class="input-items activity-input"> <input type="tel" maxlength='3'
                                     onkeypress="return numOnly(event)" class="input-info" placeholder="Ran"
                                     autocomplete="off"  id="running-input">
                                 <div class="input-metric" id="runningInputMetric">
@@ -98,7 +102,7 @@
 
                             <div class="enter-text">Enter minutes jumped</div>
 
-                            <div class="input-items activity-input"> <input type="tel" maxlength='3' 
+                            <div class="input-items activity-input"> <input type="tel" maxlength='3'
                                     onkeypress="return numOnly(event)" class="input-info" placeholder="Jumping Jacks"
                                     autocomplete="off" maxlength="3" id="jumpingjacks-input">
                                 <div class="input-metric" id="jumpingjacksInputMetric">
