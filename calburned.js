@@ -151,6 +151,10 @@ const facts = [
     fact: '10 lbs of muscle burns 50 calories a day at rest, while 10 lbs of fat only burns 20',
     comment: 'Time to pump some iron!',
   },
+  {
+    fact: 'A person will burn 7 percent more calories if they walk on hard dirt compared to pavement',
+    comment: 'Mom always said to stay out of the street', 
+  },
 ];
 let factNum = 0;
 const showFact = () => {
