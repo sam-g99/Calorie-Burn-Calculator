@@ -388,8 +388,10 @@ const saveEdit = () =>{
     const activityChange = [walking, running, jumpingjacks];
     activityChange.forEach((x) => { updateValues(x, activityMetric); });
     changeInnerHtml('buttonsContainer', '<p class="edit-button" onclick="editWeight()" id="editButton">Change Weight</p>');
+    document.getElementById('alert').style.display = 'none'
   }else{
-    alert('Your weight needs to be greater than 10')
+    document.getElementById('alert-value').innerHTML = `The weight you entered must be greater than 10 ${weightMetric}!`
+    document.getElementById('alert').style.display = 'block'
   }
 
 };
