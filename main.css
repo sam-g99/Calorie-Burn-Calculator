@@ -609,6 +609,12 @@ h2{
 .fact-card{
     padding: 1em;
 }
+
+/* currentTheme */
+#currentTheme{
+  font-size: 10px;
+}
+
 /*dark theme*/
 .dark-theme{
     background-color: #2B2B2B;
