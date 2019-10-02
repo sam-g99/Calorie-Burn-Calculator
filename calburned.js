@@ -75,7 +75,7 @@ const weightInput = document.getElementById('weight-input');
 weightInput.addEventListener('keyup', (event) => {
   if (event.keyCode === 13) {
     if (event.target.value < 10) {
-      window.alert("The weight you entered must be less than 10 pounds.")
+      window.alert("The weight you entered must be less than 10 pounds.");
       return;
     }
     const pounds = parseInt(event.target.value, 10); // Getting the weight the user inputed
