@@ -353,7 +353,7 @@ input:focus{
 .speed-input{
     position: absolute;
     top:2px;
-    left:138px;
+    left:170px;
     border:none;
     color: #898989;
     border-radius: 5px;
@@ -630,6 +630,7 @@ h2{
 .dark-theme .calories-burned{
     color:rgb(180, 116, 21);
 }
+
 .moon-icon {
     color:yellow;
     font-size: 2em;
@@ -637,12 +638,9 @@ h2{
     margin-top:-12px;
     margin-left: 5px;
 }
-.-inputs-container {
-    
-}
+
 
 .inputs-container {
-
     position: absolute;
     width:100%;
 }
