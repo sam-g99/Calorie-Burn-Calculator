@@ -176,6 +176,21 @@ const facts = [
     fact: 'A person will burn 7 percent more calories if they walk on hard dirt compared to pavement',
     comment: 'Mom always said to stay out of the street',
   },
+  
+  {
+    fact: 'No, there is no such thing as foods with negative calories.',
+    comment : 'Sorry, but celery does not have negative calories.',
+  },
+  
+  {
+    fact: 'Calories from carbs are not evil.Some diet plans — like Atkins — advise limiting carbs when you are trying to slim down. But in general, carbs arent inherently more likely to make you gain weight.',
+    comment: 'Carbs arent your enemy.',
+  },
+  
+  {
+    fact: ' Losing a pound isnt as simple as burning 3,500 calories. ',
+    comment: 'There is some truth to it, but metabolically and hormonally, bodies are different',
+  },
 ];
 let factNum = 0;
 const showFact = () => {
